@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import FilterButtons from './FilterButtons.astro';
+import ProjectCard from './ProjectCard.astro';
+import ProjectModal from './ProjectModal.astro';
+
+const CATEGORY_ORDER = ['Graphisme', 'Site web', 'Photos et vidéos', 'Podcast', 'Réseaux sociaux'];
+const MAX_VISIBLE = 6;
+
+const allProjets = await getCollection('projets');
+const projets = allProjets
+	.map((entry) => entry.data)
+	.sort((a, b) => a.ordre - b.ordre);
+
+const categories = CATEGORY_ORDER.filter((cat) => projets.some((p) => p.categorie === cat));
+---
+
+<section id="portfolio" data-reveal>
+	<div class="wrap">
+		<div class="section-heading">
+			<span class="eyebrow">Réalisations</span>
+			<h2 class="section-title">Des projets au service de votre communication</h2>
+		</div>
+
+		<FilterButtons categories={categories} />
+
+		<div class="grid" data-reveal-stagger data-max-visible={MAX_VISIBLE}>
+			{
+				projets.map((projet) => (
+					<ProjectCard
+						titre={projet.titre}
+						categorie={projet.categorie}
+						image={projet.image}
+						lien={projet.lien}
+						description={projet.description}
+						couleur={projet.couleur}
+					/>
+				))
+			}
+		</div>
+
+		<div class="more-row">
+			<button type="button" class="pill more-btn" id="voir-plus" hidden>Voir plus</button>
+		</div>
+	</div>
+</section>
+
+<ProjectModal />
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 2rem;
+	}
+
+	.more-row {
+		display: flex;
+		justify-content: center;
+		margin-top: 3rem;
+	}
+
+	.more-btn {
+		cursor: pointer;
+		border: 1px solid var(--color-border);
+		background: #fff;
+		color: var(--color-navy);
+		transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+	}
+
+	.more-btn:hover {
+		border-color: var(--color-amber);
+		color: var(--color-amber);
+		transform: translateY(-1px);
+	}
+
+	/* La classe .pill (display: inline-flex) est plus spécifique que le
+	   style navigateur par défaut de [hidden] : on le rétablit ici pour
+	   que moreButton.hidden masque bien le bouton en JS. */
+	.more-btn[hidden] {
+		display: none;
+	}
+</style>
+
+<script>
+	const grid = document.querySelector<HTMLElement>('.grid');
+	const cards = Array.from(document.querySelectorAll<HTMLElement>('.project-card'));
+	const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+	const moreButton = document.querySelector<HTMLButtonElement>('#voir-plus');
+	const MAX_VISIBLE = Number(grid?.dataset.maxVisible ?? 9);
+	const FADE_MS = 200;
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	let currentFilter = 'Tous';
+	let expanded = false;
+
+	const setCardVisibility = (card: HTMLElement, show: boolean) => {
+		if (prefersReducedMotion) {
+			card.style.display = show ? '' : 'none';
+			return;
+		}
+
+		if (show) {
+			card.style.display = '';
+			requestAnimationFrame(() => card.classList.remove('is-fading'));
+		} else {
+			card.classList.add('is-fading');
+			window.setTimeout(() => {
+				if (card.classList.contains('is-fading')) {
+					card.style.display = 'none';
+				}
+			}, FADE_MS);
+		}
+	};
+
+	const applyVisibility = () => {
+		const matching = cards.filter(
+			(card) => currentFilter === 'Tous' || card.dataset.category === currentFilter
+		);
+		const visibleLimit = expanded ? matching.length : MAX_VISIBLE;
+
+		cards.forEach((card) => {
+			const matchesFilter = matching.includes(card);
+			const withinLimit = matchesFilter && matching.indexOf(card) < visibleLimit;
+			setCardVisibility(card, withinLimit);
+		});
+
+		if (moreButton) {
+			const hasOverflow = matching.length > MAX_VISIBLE;
+			moreButton.hidden = !hasOverflow;
+			moreButton.textContent = expanded ? 'Voir moins' : 'Voir plus';
+		}
+	};
+
+	filterButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			filterButtons.forEach((b) => b.classList.remove('is-active'));
+			button.classList.add('is-active');
+			currentFilter = button.dataset.filter ?? 'Tous';
+			expanded = false;
+			applyVisibility();
+		});
+	});
+
+	moreButton?.addEventListener('click', () => {
+		expanded = !expanded;
+		applyVisibility();
+
+		if (!expanded) {
+			document.getElementById('portfolio')?.scrollIntoView({ block: 'start' });
+		}
+	});
+
+	applyVisibility();
+</script>

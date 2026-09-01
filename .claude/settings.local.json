@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes playwright screenshot --viewport-size=1440,1400 --full-page http://localhost:4321/ full.png)",
+      "Bash(python3 -c ' *)",
+      "Bash(node \"/private/tmp/claude-501/-Users-mathilderegaud-mon-portfolio/19ccd6ce-a2bb-4d02-9efe-6ae1bed53f45/scratchpad/strip-base64.js\")",
+      "Bash(astro dev *)",
+      "Bash(npx astro *)",
+      "Bash(grep -o '\"Portrait de Mathilde\"[^}]\\\\{0,200\\\\}' \"/Users/mathilderegaud/mon-portfolio/Portfolio Mathilde - Standalone.html\")",
+      "Bash(grep -o '.\\\\{0,80\\\\}hero-photo.\\\\{0,300\\\\}' \"/Users/mathilderegaud/mon-portfolio/Portfolio Mathilde - Standalone.html\")",
+      "Bash(python3 -)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s http://localhost:4321/ -o /tmp/page.html)",
+      "Bash(curl -sI http://localhost:4321/)",
+      "Bash(sips --help)",
+      "Bash(sips -Z 2400 -s format jpeg -s formatOptions 72 hero-pattern.jpg --out hero-pattern-optimized.jpg)",
+      "Bash(python3 -c \"import PIL; print\\(PIL.__version__\\)\")"
+    ]
+  }
+}

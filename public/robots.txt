@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mathilde-regaud.fr/sitemap-index.xml

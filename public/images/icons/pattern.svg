@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="220" viewBox="0 0 960 220" fill="none" stroke="#1B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- ordinateur -->
+  <g transform="translate(20,60)">
+    <rect x="0" y="0" width="70" height="46" rx="6"/>
+    <path d="M 20 46 L 15 60 M 50 46 L 55 60 M 10 60 L 60 60"/>
+  </g>
+
+  <!-- enveloppe -->
+  <g transform="translate(140,70)">
+    <rect x="0" y="0" width="72" height="48" rx="5"/>
+    <path d="M 2 4 L 36 32 L 70 4"/>
+  </g>
+
+  <!-- ampoule -->
+  <g transform="translate(260,50)">
+    <circle cx="26" cy="26" r="24"/>
+    <path d="M 26 50 L 26 66 M 16 66 L 36 66 M 18 74 L 34 74"/>
+    <path d="M 18 26 Q 26 14 34 26" stroke-width="2"/>
+  </g>
+
+  <!-- appareil photo -->
+  <g transform="translate(370,58)">
+    <rect x="0" y="10" width="76" height="52" rx="8"/>
+    <rect x="24" y="0" width="26" height="12" rx="3"/>
+    <circle cx="38" cy="37" r="16"/>
+    <circle cx="38" cy="37" r="7"/>
+  </g>
+
+  <!-- bulle de dialogue -->
+  <g transform="translate(500,55)">
+    <path d="M 4 6 h 62 a 8 8 0 0 1 8 8 v 30 a 8 8 0 0 1 -8 8 h -34 l -16 16 v -16 h -12 a 8 8 0 0 1 -8 -8 v -30 a 8 8 0 0 1 8 -8 Z"/>
+    <path d="M 20 24 h 40 M 20 36 h 26"/>
+  </g>
+
+  <!-- pinceau -->
+  <g transform="translate(630,50)">
+    <path d="M 4 70 C 2 50 10 40 24 34 L 62 6 L 76 20 L 46 56 C 40 68 30 76 12 76 Z"/>
+    <path d="M 24 34 L 46 56"/>
+  </g>
+
+  <!-- micro (podcast) -->
+  <g transform="translate(740,48)">
+    <rect x="14" y="0" width="24" height="42" rx="12"/>
+    <path d="M 0 30 a 26 26 0 0 0 52 0 M 26 56 L 26 70 M 12 70 L 40 70"/>
+  </g>
+
+  <!-- crayon -->
+  <g transform="translate(840,60)">
+    <path d="M 4 58 L 44 18 L 58 32 L 18 72 L 2 76 Z"/>
+    <path d="M 36 26 L 50 40 M 14 62 L 26 66"/>
+  </g>
+</svg>

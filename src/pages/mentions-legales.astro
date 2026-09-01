@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Mentions légales — Mathilde Regaud Nardeux" description="Mentions légales du site.">
+	<Header />
+
+	<section class="legal" data-reveal>
+		<div class="wrap legal-wrap">
+			<h1>Mentions légales</h1>
+
+			<h2>Éditeur du site</h2>
+			<p>
+				Le présent site est édité par :<br />
+				<strong>Mathilde Nardeux Regaud</strong><br />
+				Email : [Adresse email de contact]
+			</p>
+			<p>Directrice de la publication : Mathilde Nardeux Regaud</p>
+
+			<h2>Hébergement</h2>
+			<p>
+				Le site est hébergé par : Hostinger<br />
+				HOSTINGER operations, UAB Švitrigailos str. 34, Vilnius 03230 Lithuania <br />
+				Phone: +37064503378 <br />
+				Email: domains@hostinger.com<br />
+			</p>
+
+			<h2>Propriété intellectuelle</h2>
+			<p>
+				L'ensemble des contenus présents sur ce site (textes, images, vidéos, identité visuelle) est
+				la propriété de [Nom et prénom], sauf mention contraire, et est protégé par le Code de la
+				propriété intellectuelle. Toute reproduction, même partielle, est soumise à autorisation
+				préalable.
+			</p>
+
+			<h2>Données personnelles</h2>
+			<p>
+				Le formulaire de contact de ce site collecte votre nom, votre adresse email et le contenu de
+				votre message, dans le seul but de répondre à votre demande. Ces données ne sont ni cédées
+				ni utilisées à d'autres fins.
+			</p>
+			<p>
+				Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi
+				Informatique et Libertés, vous disposez d'un droit d'accès, de rectification et de
+				suppression des données vous concernant. Pour l'exercer, contactez [adresse email de
+				contact].
+			</p>
+
+			<h2>Cookies</h2>
+			<p>
+				Ce site ne dépose pas de cookie de suivi ou de mesure d'audience. [À adapter si un outil
+				d'analytics ou une police externe déposant des cookies est ajouté ultérieurement.]
+			</p>
+
+			<h2>Liens hypertextes</h2>
+			<p>
+				Ce site peut contenir des liens vers des sites tiers (réalisations, réseaux sociaux).
+				[Nom et prénom] n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant
+				à leur contenu.
+			</p>
+
+			<h2>Droit applicable</h2>
+			<p>Le présent site est soumis au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+		</div>
+	</section>
+
+	<Footer />
+</Layout>
+
+<style>
+	.legal {
+		padding: 7rem 0 5rem;
+	}
+
+	.legal-wrap {
+		max-width: 720px;
+	}
+
+	.legal h1 {
+		font-size: clamp(1.9rem, 3vw, 2.4rem);
+		margin-bottom: 2.5rem;
+	}
+
+	.legal h2 {
+		font-size: 1.15rem;
+		font-weight: 500;
+		margin-top: 2.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.legal p {
+		color: var(--color-navy-soft);
+		line-height: 1.7;
+	}
+
+	.legal p + h2 {
+		margin-top: 2.5rem;
+	}
+</style>

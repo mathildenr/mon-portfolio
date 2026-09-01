@@ -1,0 +1,46 @@
+---
+interface Props {
+	categories: string[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="filters" role="group" aria-label="Filtrer les projets par catégorie">
+	<button type="button" class="pill filter-btn is-active" data-filter="Tous">Tous</button>
+	{
+		categories.map((categorie) => (
+			<button type="button" class="pill filter-btn" data-filter={categorie}>
+				{categorie}
+			</button>
+		))
+	}
+</div>
+
+<style>
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		justify-content: center;
+		margin-bottom: 3.5rem;
+	}
+
+	.filter-btn {
+		cursor: pointer;
+		border: 1px solid var(--color-border);
+		background: #fff;
+		color: var(--color-navy);
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.filter-btn:hover {
+		border-color: var(--color-navy);
+	}
+
+	.filter-btn.is-active {
+		background: #fff;
+		border-color: var(--color-amber);
+		color: var(--color-amber);
+	}
+</style>

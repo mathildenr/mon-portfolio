@@ -1,0 +1,278 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+}
+
+const {
+	title = 'Mathilde Regaud Nardeux — Communication & graphisme',
+	description = 'Je vous accompagne pour créer une communication claire, cohérente et efficace.',
+	image = '/images/mathilde.webp',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
+
+const personSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Mathilde Regaud Nardeux',
+	url: Astro.site?.toString(),
+	image: ogImageURL.toString(),
+	jobTitle: 'Freelance communication 360°',
+	knowsAbout: ['Communication', 'Graphisme', 'Site web', 'Photographie', 'Vidéo'],
+};
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:locale" content="fr_FR" />
+
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL} />
+
+		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Mulish:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<script>
+	const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+	const staggerGroups = document.querySelectorAll<HTMLElement>('[data-reveal-stagger]');
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if ((targets.length || staggerGroups.length) && 'IntersectionObserver' in window && !prefersReducedMotion) {
+		targets.forEach((el) => el.classList.add('reveal-init'));
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('reveal-visible');
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.15 }
+		);
+
+		targets.forEach((el) => observer.observe(el));
+
+		staggerGroups.forEach((group) => {
+			const items = Array.from(group.children) as HTMLElement[];
+
+			items.forEach((item, index) => {
+				const delay = Math.min(index, 8) * 70;
+				item.style.opacity = '0';
+				item.style.transform = 'translateY(15px)';
+				item.style.transition = `opacity 0.45s ease ${delay}ms, transform 0.45s ease ${delay}ms`;
+			});
+
+			const groupObserver = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							items.forEach((item, index) => {
+								item.style.opacity = '1';
+								item.style.transform = 'translateY(0)';
+								const delay = Math.min(index, 8) * 70;
+								window.setTimeout(() => {
+									item.style.removeProperty('opacity');
+									item.style.removeProperty('transform');
+									item.style.removeProperty('transition');
+								}, delay + 500);
+							});
+							groupObserver.unobserve(entry.target);
+						}
+					});
+				},
+				{ threshold: 0.1 }
+			);
+
+			groupObserver.observe(group);
+		});
+	}
+</script>
+
+<style is:global>
+	:root {
+		--color-bg: #fffdf9;
+		--color-amber: #f2a71b;
+		--color-amber-soft: #f9d999;
+		--color-amber-badge-bg: #fdf1d6;
+		--color-amber-badge-text: #b8790a;
+		--color-navy: #1b2a4a;
+		--color-navy-soft: #3d4a63;
+		--color-border: #e0e0e0;
+		--color-border-warm: #ece6da;
+		--color-border-soft: #d8d2c4;
+		--color-badge-bg: #f2f2f2;
+		--color-muted: #6b7280;
+		--font-title: 'Outfit', system-ui, sans-serif;
+		--font-body: 'Mulish', system-ui, sans-serif;
+		--radius-pill: 999px;
+		--max-width: 1160px;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		margin: 0;
+		background: var(--color-bg);
+		color: var(--color-navy);
+		font-family: var(--font-body);
+		font-size: 1.05rem;
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-title);
+		font-weight: 600;
+		line-height: 1.15;
+		margin: 0;
+	}
+
+	.section-heading {
+		text-align: center;
+		margin-bottom: 3.5rem;
+	}
+
+	.section-heading .eyebrow {
+		display: inline-block;
+		font-family: var(--font-title);
+		font-weight: 600;
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-amber);
+	}
+
+	.section-heading .section-title {
+		margin-top: 0.6rem;
+		font-size: clamp(1.9rem, 3vw, 2.5rem);
+	}
+
+	.label {
+		font-family: var(--font-title);
+		font-weight: 500;
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	img {
+		max-width: 100%;
+		display: block;
+	}
+
+	.wrap {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		border-radius: var(--radius-pill);
+		padding: 0.5em 1.3em;
+		font-family: var(--font-title);
+		font-weight: 500;
+		font-size: 0.8rem;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.icon-band {
+		position: absolute;
+		top: 0;
+		left: calc(50% - 50vw);
+		right: calc(50% - 50vw);
+		height: 316px;
+		background-image: url('/images/hero-pattern.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+		opacity: 0.25;
+		mask-image: linear-gradient(to bottom, black 0%, transparent 40%);
+		-webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 40%);
+		z-index: 0;
+	}
+
+	section {
+		padding: 6.5rem 0;
+	}
+
+	@media (max-width: 640px) {
+		section {
+			padding: 4rem 0;
+		}
+	}
+
+	[data-reveal].reveal-init {
+		opacity: 0;
+		transform: translateY(15px);
+		transition: opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	[data-reveal].reveal-init.reveal-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+</style>

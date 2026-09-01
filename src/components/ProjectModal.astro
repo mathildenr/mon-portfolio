@@ -1,0 +1,346 @@
+---
+// Aperçu d'un projet, en panneau latéral (façon « peek » Notion),
+// affiché au clic sur une vignette.
+// Une seule instance pour toute la grille : le contenu est injecté
+// depuis les data-attributs de la carte cliquée.
+---
+
+<dialog id="project-modal" class="project-peek" aria-labelledby="project-modal-title">
+	<div class="panel">
+		<header class="bar">
+			<span class="pill category-pill" data-modal-category></span>
+			<button type="button" class="close" data-modal-close aria-label="Fermer l'aperçu">
+				<span aria-hidden="true">×</span>
+			</button>
+		</header>
+
+		<div class="scroller">
+			<figure class="visual">
+				<img data-modal-image src="" alt="" />
+			</figure>
+
+			<div class="body">
+				<h3 id="project-modal-title" data-modal-title></h3>
+				<p class="description" data-modal-description></p>
+				<a class="pill link" data-modal-link href="#" target="_blank" rel="noopener noreferrer">
+					Voir le projet <span class="arrow" aria-hidden="true">↗</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</dialog>
+
+<style>
+	.project-peek {
+		position: fixed;
+		inset: 0 0 0 auto;
+		width: min(580px, 100vw - 2rem);
+		max-width: none;
+		max-height: none;
+		height: 100dvh;
+		margin: 0;
+		padding: 0.75rem 0.75rem 0.75rem 0;
+		border: 0;
+		background: transparent;
+		overflow: visible;
+	}
+
+	.project-peek::backdrop {
+		background: rgba(27, 42, 74, 0.28);
+	}
+
+	.panel {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		border: 1px solid var(--color-border-warm);
+		border-radius: 20px;
+		background: #fff;
+		color: var(--color-navy);
+		box-shadow: -18px 0 50px rgba(27, 42, 74, 0.16);
+		overflow: hidden;
+	}
+
+	/* Ouverture : glissement depuis la droite */
+	.project-peek[open] .panel {
+		animation: peek-in 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.project-peek[open]::backdrop {
+		animation: backdrop-in 0.32s ease;
+	}
+
+	/* Fermeture */
+	.project-peek.is-closing .panel {
+		animation: peek-out 0.22s ease forwards;
+	}
+
+	.project-peek.is-closing::backdrop {
+		animation: backdrop-out 0.22s ease forwards;
+	}
+
+	@keyframes peek-in {
+		from {
+			transform: translateX(102%);
+			opacity: 0.6;
+		}
+	}
+
+	@keyframes peek-out {
+		to {
+			transform: translateX(102%);
+			opacity: 0.4;
+		}
+	}
+
+	@keyframes backdrop-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@keyframes backdrop-out {
+		to {
+			opacity: 0;
+		}
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.9rem 1rem 0.9rem 1.5rem;
+		border-bottom: 1px solid var(--color-border-warm);
+		background: rgba(255, 255, 255, 0.92);
+	}
+
+	.category-pill {
+		background: var(--color-badge-bg);
+		color: #5a6472;
+		font-weight: 400;
+		font-size: 0.7rem;
+		padding: 0.35em 0.9em;
+	}
+
+	.close {
+		flex: none;
+		width: 2.1rem;
+		height: 2.1rem;
+		display: grid;
+		place-items: center;
+		border: 1px solid var(--color-border-warm);
+		border-radius: var(--radius-pill);
+		background: #fff;
+		color: var(--color-navy);
+		font-size: 1.35rem;
+		line-height: 1;
+		cursor: pointer;
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.close:hover {
+		border-color: var(--color-navy);
+		color: var(--color-amber);
+	}
+
+	.scroller {
+		flex: 1;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.visual {
+		margin: 0;
+		background: var(--color-amber-soft);
+	}
+
+	.visual img {
+		width: 100%;
+		max-height: 46vh;
+		object-fit: contain;
+	}
+
+	.body {
+		padding: 1.75rem 1.75rem 2.25rem;
+	}
+
+	.body h3 {
+		font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+		font-weight: 500;
+	}
+
+	.description {
+		margin-top: 0.75rem;
+		color: var(--color-muted);
+		font-size: 1rem;
+	}
+
+	.description:empty {
+		display: none;
+	}
+
+	.link {
+		margin-top: 1.75rem;
+		border: 1px solid var(--color-border);
+		color: var(--color-navy);
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.link[hidden] {
+		display: none;
+	}
+
+	.link:hover {
+		border-color: var(--color-amber);
+		color: var(--color-amber);
+	}
+
+	.link:hover .arrow {
+		transform: translate(2px, -2px);
+	}
+
+	.arrow {
+		color: var(--color-amber);
+		font-size: 0.85em;
+		display: inline-block;
+		transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	/* Mobile : le panneau remonte depuis le bas */
+	@media (max-width: 700px) {
+		.project-peek {
+			inset: auto 0 0 0;
+			width: 100vw;
+			height: min(88dvh, 100dvh);
+			padding: 0;
+		}
+
+		.panel {
+			border-radius: 20px 20px 0 0;
+			box-shadow: 0 -14px 40px rgba(27, 42, 74, 0.18);
+		}
+
+		.project-peek[open] .panel {
+			animation-name: sheet-in;
+		}
+
+		.project-peek.is-closing .panel {
+			animation-name: sheet-out;
+		}
+
+		.bar {
+			padding-left: 1.25rem;
+		}
+
+		.body {
+			padding: 1.4rem 1.25rem 2rem;
+		}
+
+		@keyframes sheet-in {
+			from {
+				transform: translateY(102%);
+			}
+		}
+
+		@keyframes sheet-out {
+			to {
+				transform: translateY(102%);
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.project-peek[open] .panel,
+		.project-peek[open]::backdrop,
+		.project-peek.is-closing .panel,
+		.project-peek.is-closing::backdrop {
+			animation: none;
+		}
+	}
+</style>
+
+<script>
+	const modal = document.getElementById('project-modal') as HTMLDialogElement | null;
+
+	if (modal) {
+		const imageEl = modal.querySelector<HTMLImageElement>('[data-modal-image]')!;
+		const categoryEl = modal.querySelector<HTMLElement>('[data-modal-category]')!;
+		const titleEl = modal.querySelector<HTMLElement>('[data-modal-title]')!;
+		const descriptionEl = modal.querySelector<HTMLElement>('[data-modal-description]')!;
+		const linkEl = modal.querySelector<HTMLAnchorElement>('[data-modal-link]')!;
+		const visualEl = modal.querySelector<HTMLElement>('.visual')!;
+		const scrollerEl = modal.querySelector<HTMLElement>('.scroller')!;
+		const panelEl = modal.querySelector<HTMLElement>('.panel')!;
+
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const CLOSE_MS = 220;
+
+		let lastTrigger: HTMLElement | null = null;
+		let closing = false;
+
+		const open = (card: HTMLElement) => {
+			const { titre = '', categorie = '', image = '', lien = '', description = '', couleur = '' } =
+				card.dataset;
+
+			imageEl.src = image;
+			imageEl.alt = titre;
+			categoryEl.textContent = categorie;
+			titleEl.textContent = titre;
+			descriptionEl.textContent = description;
+			visualEl.style.background = couleur || '';
+
+			if (lien) {
+				linkEl.href = lien;
+				linkEl.hidden = false;
+			} else {
+				linkEl.removeAttribute('href');
+				linkEl.hidden = true;
+			}
+
+			scrollerEl.scrollTop = 0;
+			lastTrigger = card;
+			modal.showModal();
+			document.body.style.overflow = 'hidden';
+		};
+
+		const dismiss = () => {
+			if (closing) return;
+
+			if (prefersReducedMotion) {
+				modal.close();
+				return;
+			}
+
+			closing = true;
+			modal.classList.add('is-closing');
+			window.setTimeout(() => modal.close(), CLOSE_MS);
+		};
+
+		document.querySelectorAll<HTMLElement>('.project-card').forEach((card) => {
+			card.addEventListener('click', () => open(card));
+		});
+
+		modal.querySelector('[data-modal-close]')?.addEventListener('click', dismiss);
+
+		// Clic en dehors du panneau : on ferme.
+		modal.addEventListener('click', (event) => {
+			if (!panelEl.contains(event.target as Node)) dismiss();
+		});
+
+		// Échap : on laisse l'animation de sortie se jouer.
+		modal.addEventListener('cancel', (event) => {
+			if (closing) return;
+			event.preventDefault();
+			dismiss();
+		});
+
+		modal.addEventListener('close', () => {
+			modal.classList.remove('is-closing');
+			closing = false;
+			document.body.style.overflow = '';
+			lastTrigger?.focus();
+			lastTrigger = null;
+		});
+	}
+</script>

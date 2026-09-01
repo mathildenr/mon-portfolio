@@ -1,0 +1,123 @@
+---
+interface Props {
+	titre: string;
+	categorie: string;
+	image: string;
+	lien?: string;
+	description?: string;
+	couleur?: string;
+}
+
+const { titre, categorie, image, lien, description, couleur } = Astro.props;
+---
+
+<button
+	type="button"
+	class="project-card"
+	data-category={categorie}
+	data-titre={titre}
+	data-categorie={categorie}
+	data-image={image}
+	data-lien={lien}
+	data-description={description}
+	data-couleur={couleur}
+	aria-label={`Voir l'aperçu du projet : ${titre}`}
+>
+	<div class="thumb" style={couleur ? `background: ${couleur}` : undefined}>
+		<img src={image} alt={titre} loading="lazy" width="900" height="675" />
+	</div>
+	<div class="card-body">
+		<span class="pill category-pill">{categorie}</span>
+		<h3>
+			{titre}
+		</h3>
+		{description && <p>{description}</p>}
+	</div>
+</button>
+
+<style>
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		text-align: left;
+		font: inherit;
+		cursor: pointer;
+		text-decoration: none;
+		color: inherit;
+		border-radius: 18px;
+		overflow: hidden;
+		background: #fff;
+		border: 1px solid var(--color-border-warm);
+		box-shadow: 0 1px 2px rgba(27, 42, 74, 0.04);
+		opacity: 1;
+		transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease,
+			opacity 0.2s ease;
+	}
+
+	.project-card.is-fading {
+		opacity: 0;
+	}
+
+	.project-card:hover,
+	.project-card:focus-visible {
+		border-color: var(--color-navy);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(27, 42, 74, 0.08);
+	}
+
+	.project-card:hover .thumb img {
+		transform: scale(1.03);
+	}
+
+	.thumb {
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: var(--color-amber-soft);
+	}
+
+	.thumb img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.4s ease;
+	}
+
+	.card-body {
+		padding: 1.25rem 1.4rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		width: 100%;
+	}
+
+	.category-pill {
+		align-self: flex-start;
+		background: var(--color-badge-bg);
+		color: #5a6472;
+		font-weight: 400;
+		font-size: 0.7rem;
+		padding: 0.35em 0.9em;
+	}
+
+	.card-body h3 {
+		margin-top: 0.85rem;
+		font-size: 1.12rem;
+		font-weight: 500;
+	}
+
+	.card-body p {
+		margin-top: 0.5rem;
+		font-size: 0.92rem;
+		color: #6b7280;
+		text-align: left;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.project-card:hover .thumb img {
+			transform: none;
+		}
+	}
+</style>
