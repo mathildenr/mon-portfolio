@@ -2,3 +2,8 @@
 [build]
   command = "npm run build:netlify"
   publish = "dist"
+
+# Le projet exige Node 22 (voir "engines" dans package.json) : on le fixe ici
+# pour ne pas dépendre de la version par défaut de Netlify.
+[build.environment]
+  NODE_VERSION = "22"
