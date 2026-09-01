@@ -9,45 +9,41 @@ entre deux, le site en ligne actuel n'est pas touché tant que le DNS n'a pas bo
 
 ---
 
-## 1. Créer un compte GitHub
+## 1 à 3. Publier le projet sur GitHub
 
-https://github.com/signup — compte gratuit. Noter le **nom d'utilisateur** choisi,
-il sert partout ensuite (appelé `<utilisateur>` dans la suite).
+Compte GitHub : `mathildenr`.
 
-Puis, dans le terminal, à la racine du projet, aligner l'identité Git sur l'adresse
-utilisée pour le compte :
+Le dossier est déjà un dépôt Git avec son historique. Le plus simple, depuis
+**VS Code**, ouvre le projet puis :
+
+1. Icône **Source Control** dans la barre latérale (le petit embranchement).
+2. Bouton **Publish to GitHub**.
+3. Choisir **Publish to a private repository**, nom `mon-portfolio`.
+4. VS Code ouvre le navigateur pour autoriser la connexion à GitHub, puis crée
+   le dépôt et envoie le code.
+
+Rien à créer à la main sur github.com : VS Code s'en charge.
+
+Vérification après coup, sur github.com/mathildenr/mon-portfolio : le fichier
+`.env` **ne doit pas** y figurer (il est ignoré volontairement, il contient la
+clé Web3Forms).
+
+### Variante en ligne de commande
+
+Créer d'abord le dépôt vide sur github.com (**New repository**, `mon-portfolio`,
+**Private**, aucune case cochée), puis :
 
 ```sh
-git config user.email "l-adresse-du-compte-github"
-```
-
-## 2. Créer le dépôt
-
-Sur GitHub : **New repository**, nom `mon-portfolio`, visibilité **Private**,
-et surtout **ne cocher aucune case** (pas de README, pas de .gitignore) — le dépôt
-doit rester vide, le projet local a déjà son historique.
-
-## 3. Envoyer le projet sur GitHub
-
-Le dossier est déjà un dépôt Git avec un premier commit. Il reste à le relier :
-
-```sh
-git remote add origin https://github.com/<utilisateur>/mon-portfolio.git
+cd ~/mon-portfolio
+git remote add origin https://github.com/mathildenr/mon-portfolio.git
 git branch -M main
 git push -u origin main
 ```
 
-GitHub demandera une authentification. Le plus simple est d'installer
-**GitHub Desktop** (https://desktop.github.com) et de s'y connecter une fois :
-il gère l'authentification pour le terminal aussi.
-
-À vérifier après le push : le fichier `.env` **ne doit pas** apparaître sur GitHub
-(il est ignoré volontairement, il contient la clé Web3Forms).
-
 ## 4. Déployer sur Netlify
 
 1. https://app.netlify.com → **Sign up with GitHub**.
-2. **Add new site → Import an existing project → GitHub** → choisir `mon-portfolio`.
+2. **Add new site → Import an existing project → GitHub** → choisir `mathildenr/mon-portfolio`.
 3. Le fichier `netlify.toml` du projet fixe déjà la commande de build
    (`npm run build:netlify`) et le dossier publié (`dist`) — rien à saisir.
 4. Avant le premier déploiement, ouvrir **Environment variables** et ajouter :
@@ -58,7 +54,7 @@ il gère l'authentification pour le terminal aussi.
 ## 5. Activer le mode GitHub de Keystatic
 
 1. Dans Netlify → **Environment variables**, ajouter :
-   - `PUBLIC_KEYSTATIC_GITHUB_REPO` = `<utilisateur>/mon-portfolio`
+   - `PUBLIC_KEYSTATIC_GITHUB_REPO` = `mathildenr/mon-portfolio`
 2. Redéployer (**Deploys → Trigger deploy**).
 3. Ouvrir `https://xxx.netlify.app/keystatic` : un assistant propose de créer
    une **GitHub App**. Se laisser guider ; lui donner accès au dépôt `mon-portfolio`.
