@@ -69,17 +69,42 @@ git push -u origin main
 À partir de là : `/keystatic` demande une connexion GitHub, et chaque enregistrement
 crée un commit sur le dépôt, qui déclenche un nouveau déploiement (environ une minute).
 
-## 6. Basculer le nom de domaine
+## 6. Basculer le nom de domaine (domaine géré chez Hostinger)
 
-Dans Netlify → **Domain management → Add a custom domain** → `mathilde-regaud.fr`.
-Netlify indique les enregistrements DNS à créer chez le registrar du domaine
-(ou propose de gérer le DNS lui-même). Le certificat HTTPS est automatique.
+**Côté Netlify.** Project configuration → **Domain management** → **Add a domain**
+→ `mathilde-regaud.fr`. Netlify ajoute automatiquement la version avec et sans
+`www`, puis affiche « Awaiting external DNS ». Ne pas accepter la proposition de
+confier le DNS à Netlify : cela déplacerait aussi la messagerie du domaine.
 
-Une fois le domaine actif, retourner dans les réglages de la GitHub App créée à
-l'étape 5 et remplacer l'URL de callback par
-`https://mathilde-regaud.fr/api/keystatic/github/oauth/callback`.
+**Côté Hostinger.** hPanel → **Domaines** → `mathilde-regaud.fr` → **Zone DNS**.
 
-Hostinger peut rester en place quelques jours, le temps de vérifier que tout va bien.
+Avant de toucher à quoi que ce soit, faire une capture d'écran de la zone
+existante. Puis :
+
+| Type | Nom | Valeur |
+| --- | --- | --- |
+| A | `@` | `75.2.60.5` |
+| CNAME | `www` | `verdant-dolphin-bea724.netlify.app` |
+
+- L'enregistrement `A` existe déjà et pointe vers Hostinger : il faut le
+  **modifier**, pas en ajouter un second.
+- Supprimer un éventuel enregistrement `AAAA` sur `@` (adresse IPv6 vers
+  Hostinger) : s'il reste, une partie des visiteurs continuera d'atterrir sur
+  l'ancien site.
+- **Ne pas toucher aux enregistrements MX ni aux TXT** : ce sont les adresses
+  e-mail du domaine et les vérifications associées.
+
+La propagation prend de quelques minutes à quelques heures. Le certificat HTTPS
+est ensuite émis automatiquement par Netlify.
+
+**Une fois le domaine actif :**
+
+1. Dans Netlify, définir `mathilde-regaud.fr` comme **Primary domain**.
+2. Dans les réglages de la GitHub App (étape 5), remplacer l'URL de callback par
+   `https://mathilde-regaud.fr/api/keystatic/github/oauth/callback`.
+
+Les fichiers déposés sur Hostinger peuvent rester en place quelques jours : ils
+ne seront simplement plus servis.
 
 ---
 
