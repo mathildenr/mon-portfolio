@@ -48,9 +48,8 @@ il gère l'authentification pour le terminal aussi.
 
 1. https://app.netlify.com → **Sign up with GitHub**.
 2. **Add new site → Import an existing project → GitHub** → choisir `mon-portfolio`.
-3. Netlify détecte Astro tout seul. Vérifier :
-   - Build command : `npm run build`
-   - Publish directory : `dist`
+3. Le fichier `netlify.toml` du projet fixe déjà la commande de build
+   (`npm run build:netlify`) et le dossier publié (`dist`) — rien à saisir.
 4. Avant le premier déploiement, ouvrir **Environment variables** et ajouter :
    - `PUBLIC_WEB3FORMS_KEY` = la valeur qui est dans le `.env` local
      (sans elle, le formulaire de contact ne fonctionnera pas en ligne).
@@ -99,10 +98,12 @@ Hostinger peut rester en place quelques jours, le temps de vérifier que tout va
 ## Si un jour il faut redéployer à la main (retour sur Hostinger ou autre)
 
 ```sh
-npm run build:statique
+npm run build
 ```
 
 produit un `dist/` entièrement statique, sans back-office — comme avant.
+C'est `npm run build:netlify` (lancé par Netlify) qui construit la version
+avec le back-office.
 
 ## Ajouter d'autres contenus au back-office
 

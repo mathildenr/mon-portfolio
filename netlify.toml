@@ -1,0 +1,4 @@
+# Netlify construit le site avec le back-office Keystatic (routes à la demande).
+[build]
+  command = "npm run build:netlify"
+  publish = "dist"

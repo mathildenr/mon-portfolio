@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "build:statique": "SKIP_KEYSTATIC=true astro build",
-    "preview": "astro preview",
+    "build": "SKIP_KEYSTATIC=true astro build",
+    "build:netlify": "NETLIFY_BUILD=true astro build",
+    "preview": "SKIP_KEYSTATIC=true astro preview",
     "astro": "astro"
   },
   "dependencies": {
