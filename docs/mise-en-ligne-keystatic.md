@@ -101,9 +101,21 @@ produit un `dist/` entièrement statique, sans back-office — comme avant.
 C'est `npm run build:netlify` (lancé par Netlify) qui construit la version
 avec le back-office.
 
-## Ajouter d'autres contenus au back-office
+## Ce qui est éditable depuis Keystatic
 
-Pour l'instant seuls les **projets** sont éditables depuis Keystatic. Les textes
-du hero, des services, des formules et du contact sont encore écrits en dur dans
-les composants. Les rendre modifiables suppose de créer des *singletons* dans
-`keystatic.config.ts` et de faire lire ces fichiers aux composants concernés.
+- **Réalisations → Projets** : les 9 fiches projet (`src/content/projets/*.yaml`)
+- **Sections du site** : cinq fiches uniques (`src/content/site/*.yaml`)
+  - *Accueil (haut de page)* : étiquette, titre, accroche, phrase de précision,
+    portrait, libellés des deux boutons
+  - *Réalisations (titres)* : surtitre et titre de la section projets
+  - *Services* : surtitre, titre, et les cartes (émoji, titre, description, outils)
+  - *Formules* : surtitre, titre, et les formules (nom, émoji, objectif,
+    ce qu'elle comprend, mise en avant)
+  - *Contact* : surtitre, titre, texte d'introduction, libellé du bouton
+
+Dans l'accroche de l'accueil, deux astérisques autour d'un passage le mettent en
+couleur (`**comme ceci**`) et un retour à la ligne en crée un sur le site.
+
+Restent écrits en dur : le menu, le pied de page, les mentions légales et les
+libellés du formulaire de contact. Ils peuvent basculer de la même façon si le
+besoin s'en fait sentir.

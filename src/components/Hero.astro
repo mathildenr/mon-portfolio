@@ -1,8 +1,9 @@
 ---
 import { getEntry } from 'astro:content';
-import { accrocheEnHtml } from '../lib/texte';
+import { decouperAccroche } from '../lib/texte';
 
 const hero = (await getEntry('hero', 'hero'))!.data;
+const accroche = decouperAccroche(hero.accroche);
 ---
 
 <header class="hero" id="top" data-reveal>
@@ -19,7 +20,19 @@ const hero = (await getEntry('hero', 'hero'))!.data;
 
 			<h1>{hero.titre}</h1>
 
-			<p class="tagline" set:html={accrocheEnHtml(hero.accroche)}></p>
+			<p class="tagline">
+				{
+					accroche.map((fragment) =>
+						fragment.type === 'saut' ? (
+							<br />
+						) : fragment.type === 'accent' ? (
+							<span class="highlight">{fragment.valeur}</span>
+						) : (
+							fragment.valeur
+						),
+					)
+				}
+			</p>
 
 			<p class="subtext">{hero.sous_titre}</p>
 
