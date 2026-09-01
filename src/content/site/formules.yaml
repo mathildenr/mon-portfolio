@@ -1,0 +1,25 @@
+surtitre: Comment travailler ensemble
+titre: Formules
+liste:
+- nom: Express
+  icone: ⚡
+  objectif: Un besoin ponctuel à traiter rapidement, sans engagement.
+  avantages:
+  - Un support selon votre besoin (flyer, visuel, retouche…)
+  - Délai de réalisation court
+  mise_en_avant: false
+- nom: Décollage
+  icone: 🚀
+  objectif: Un accompagnement complet pour lancer ou relancer votre communication.
+  avantages:
+  - Projet de communication de A à Z
+  - Déclinaison sur plusieurs supports
+  - Point de suivi personnalisé
+  mise_en_avant: true
+- nom: Mission Croisière
+  icone: 🚢
+  objectif: Un suivi dans la durée pour une communication qui vit au fil du temps.
+  avantages:
+  - 'Accompagnement et production régulière (hebdomadaire, mensuel...) '
+  - Conseil stratégique continu
+  mise_en_avant: false

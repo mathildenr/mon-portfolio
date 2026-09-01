@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import FilterButtons from './FilterButtons.astro';
 import ProjectCard from './ProjectCard.astro';
 import ProjectModal from './ProjectModal.astro';
@@ -7,6 +7,7 @@ import ProjectModal from './ProjectModal.astro';
 const CATEGORY_ORDER = ['Graphisme', 'Site web', 'Photos et vidéos', 'Podcast', 'Réseaux sociaux'];
 const MAX_VISIBLE = 6;
 
+const realisations = (await getEntry('realisations', 'realisations'))!.data;
 const allProjets = await getCollection('projets');
 const projets = allProjets
 	.map((entry) => entry.data)
@@ -18,8 +19,8 @@ const categories = CATEGORY_ORDER.filter((cat) => projets.some((p) => p.categori
 <section id="portfolio" data-reveal>
 	<div class="wrap">
 		<div class="section-heading">
-			<span class="eyebrow">Réalisations</span>
-			<h2 class="section-title">Des projets au service de votre communication</h2>
+			<span class="eyebrow">{realisations.surtitre}</span>
+			<h2 class="section-title">{realisations.titre}</h2>
 		</div>
 
 		<FilterButtons categories={categories} />

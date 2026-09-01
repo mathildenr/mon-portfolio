@@ -1,0 +1,31 @@
+surtitre: Ce que je propose
+titre: Services
+liste:
+- icone: 🎨
+  titre: Graphisme & Print
+  description: 'Flyers, plaquettes, dépliants, affiches, livrets : des supports impactants, adaptés à votre identité visuelle.'
+  outils:
+  - Suite Adobe
+  - Affinity
+  - Canva
+- icone: 💻
+  titre: Sites web
+  description: Sites vitrines modernes, optimisés pour le référencement, pensés pour valoriser votre activité.
+  outils:
+  - WordPress
+  - Astro
+  - Figma
+- icone: 📷
+  titre: Vidéos & photos
+  description: Captation et montage pour présenter votre structure ou vos événements en images.
+  outils:
+  - Premiere Pro
+  - Lightroom
+  - DaVinci
+- icone: 📣
+  titre: Communication 360
+  description: Stratégie complète alliant digital, print et vidéo pour une image de marque cohérente.
+  outils:
+  - Réseaux sociaux
+  - Newsletter
+  - Planning éditorial

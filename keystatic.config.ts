@@ -1,4 +1,4 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 
 const depotGithub = import.meta.env.PUBLIC_KEYSTATIC_GITHUB_REPO as string | undefined;
 
@@ -13,7 +13,8 @@ export default config({
 	ui: {
 		brand: { name: 'Portfolio Mathilde' },
 		navigation: {
-			Contenu: ['projets'],
+			Réalisations: ['projets'],
+			'Sections du site': ['hero', 'realisations', 'services', 'formules', 'contact'],
 		},
 	},
 
@@ -74,6 +75,123 @@ export default config({
 					defaultValue: 0,
 					validation: { isRequired: true },
 				}),
+			},
+		}),
+	},
+
+	singletons: {
+		hero: singleton({
+			label: 'Accueil (haut de page)',
+			path: 'src/content/site/hero',
+			format: { data: 'yaml' },
+			schema: {
+				badge: fields.text({
+					label: 'Petite étiquette',
+					description: 'La pastille jaune au-dessus du nom.',
+				}),
+				titre: fields.text({ label: 'Titre principal' }),
+				accroche: fields.text({
+					label: 'Accroche',
+					description:
+						'Deux astérisques autour d’un passage le mettent en couleur : **comme ceci**. Un retour à la ligne dans le texte en crée un sur le site.',
+					multiline: true,
+				}),
+				sous_titre: fields.text({
+					label: 'Phrase de précision',
+					description: 'Le paragraphe gris sous l’accroche.',
+					multiline: true,
+				}),
+				portrait: fields.image({
+					label: 'Portrait',
+					directory: 'public/images',
+					publicPath: '/images/',
+					validation: { isRequired: true },
+				}),
+				bouton_principal: fields.text({
+					label: 'Bouton principal',
+					description: 'Mène à la section Contact.',
+				}),
+				bouton_secondaire: fields.text({
+					label: 'Bouton secondaire',
+					description: 'Mène à la grille de projets.',
+				}),
+			},
+		}),
+
+		realisations: singleton({
+			label: 'Réalisations (titres)',
+			path: 'src/content/site/realisations',
+			format: { data: 'yaml' },
+			schema: {
+				surtitre: fields.text({ label: 'Surtitre', description: 'En petites capitales.' }),
+				titre: fields.text({ label: 'Titre de la section' }),
+			},
+		}),
+
+		services: singleton({
+			label: 'Services',
+			path: 'src/content/site/services',
+			format: { data: 'yaml' },
+			schema: {
+				surtitre: fields.text({ label: 'Surtitre' }),
+				titre: fields.text({ label: 'Titre de la section' }),
+				liste: fields.array(
+					fields.object({
+						icone: fields.text({ label: 'Émoji', description: 'Un seul caractère, par ex. 🎨' }),
+						titre: fields.text({ label: 'Titre' }),
+						description: fields.text({ label: 'Description', multiline: true }),
+						outils: fields.array(fields.text({ label: 'Outil' }), {
+							label: 'Outils',
+							itemLabel: (props) => props.value,
+						}),
+					}),
+					{
+						label: 'Cartes',
+						itemLabel: (props) => props.fields.titre.value || 'Sans titre',
+					},
+				),
+			},
+		}),
+
+		formules: singleton({
+			label: 'Formules',
+			path: 'src/content/site/formules',
+			format: { data: 'yaml' },
+			schema: {
+				surtitre: fields.text({ label: 'Surtitre' }),
+				titre: fields.text({ label: 'Titre de la section' }),
+				liste: fields.array(
+					fields.object({
+						nom: fields.text({ label: 'Nom de la formule' }),
+						icone: fields.text({ label: 'Émoji' }),
+						objectif: fields.text({ label: 'À qui elle s’adresse', multiline: true }),
+						avantages: fields.array(fields.text({ label: 'Ligne' }), {
+							label: 'Ce qu’elle comprend',
+							itemLabel: (props) => props.value,
+						}),
+						mise_en_avant: fields.checkbox({
+							label: 'Mettre en avant',
+							description: 'Ajoute la pastille « Populaire » et détache la carte.',
+							defaultValue: false,
+						}),
+					}),
+					{
+						label: 'Formules',
+						itemLabel: (props) => props.fields.nom.value || 'Sans nom',
+					},
+				),
+			},
+		}),
+
+		contact: singleton({
+			label: 'Contact',
+			path: 'src/content/site/contact',
+			format: { data: 'yaml' },
+			schema: {
+				surtitre: fields.text({ label: 'Surtitre' }),
+				titre: fields.text({ label: 'Titre de la section' }),
+				intro: fields.text({ label: 'Texte d’introduction', multiline: true }),
+				bouton: fields.text({ label: 'Texte du bouton d’envoi' }),
 			},
 		}),
 	},

@@ -1,46 +1,19 @@
 ---
-const services = [
-	{
-		icone: '🎨',
-		titre: 'Graphisme & Print',
-		description:
-			"Flyers, plaquettes, dépliants, affiches, livrets : des supports impactants, adaptés à votre identité visuelle.",
-		outils: ['Suite Adobe', 'Affinity', 'Canva'],
-	},
-	{
-		icone: '💻',
-		titre: 'Sites web',
-		description:
-			'Sites vitrines modernes, optimisés pour le référencement, pensés pour valoriser votre activité.',
-		outils: ['WordPress', 'Astro', 'Figma'],
-	},
-	{
-		icone: '📷',
-		titre: 'Vidéos & photos',
-		description:
-			'Captation et montage pour présenter votre structure ou vos événements en images.',
-		outils: ['Premiere Pro', 'Lightroom', 'DaVinci'],
-	},
-	{
-		icone: '📣',
-		titre: 'Communication 360',
-		description:
-			'Stratégie complète alliant digital, print et vidéo pour une image de marque cohérente.',
-		outils: ['Réseaux sociaux', 'Newsletter', 'Planning éditorial'],
-	},
-];
+import { getEntry } from 'astro:content';
+
+const services = (await getEntry('services', 'services'))!.data;
 ---
 
 <section id="services" data-reveal>
 	<div class="wrap">
 		<div class="section-heading">
-			<span class="eyebrow">Ce que je propose</span>
-			<h2 class="section-title">Services</h2>
+			<span class="eyebrow">{services.surtitre}</span>
+			<h2 class="section-title">{services.titre}</h2>
 		</div>
 
 		<div class="grid">
 			{
-				services.map((service) => (
+				services.liste.map((service) => (
 					<article class="service-card">
 						<div class="service-icon" aria-hidden="true">{service.icone}</div>
 						<h3>{service.titre}</h3>

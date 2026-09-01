@@ -1,4 +1,8 @@
 ---
+import { getEntry } from 'astro:content';
+import { accrocheEnHtml } from '../lib/texte';
+
+const hero = (await getEntry('hero', 'hero'))!.data;
 ---
 
 <header class="hero" id="top" data-reveal>
@@ -7,25 +11,21 @@
 	<div class="wrap hero-body">
 		<div class="hero-photo">
 			<div class="photo-blob" aria-hidden="true"></div>
-			<img class="photo" src="/images/mathilde.webp" alt="Portrait de Mathilde" width="223" height="300" fetchpriority="high" />
+			<img class="photo" src={hero.portrait} alt="Portrait de Mathilde" width="223" height="300" fetchpriority="high" />
 		</div>
 
 		<div class="hero-text">
-			<span class="badge">Freelance communication 360°</span>
+			<span class="badge">{hero.badge}</span>
 
-			<h1>Mathilde Regaud Nardeux</h1>
+			<h1>{hero.titre}</h1>
 
-			<p class="tagline">
-				J'accompagne les structures qui font grandir <br>pour une <span class="highlight">communication claire et cohérente</span>.
-			</p>
+			<p class="tagline" set:html={accrocheEnHtml(hero.accroche)}></p>
 
-			<p class="subtext">
-				Je crée vos supports de communication pour renforcer votre cohérence visuelle pour un besoin ponctuel ou un accompagnement dans la durée.
-			</p>
+			<p class="subtext">{hero.sous_titre}</p>
 
 			<div class="cta-row">
-				<a class="cta-primary" href="#contact">Discutons de votre projet</a>
-				<a class="cta-secondary" href="#portfolio">Voir mes réalisations</a>
+				<a class="cta-primary" href="#contact">{hero.bouton_principal}</a>
+				<a class="cta-secondary" href="#portfolio">{hero.bouton_secondaire}</a>
 			</div>
 		</div>
 	</div>

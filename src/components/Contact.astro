@@ -1,16 +1,16 @@
 ---
+import { getEntry } from 'astro:content';
+
 const WEB3FORMS_ACCESS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const contact = (await getEntry('contact', 'contact'))!.data;
 ---
 
 <section id="contact" data-reveal>
 	<div class="wrap contact-wrap">
 		<div class="contact-intro">
-			<span class="eyebrow">À votre écoute</span>
-			<h2 class="section-title">Parlons de votre projet</h2>
-			<p class="intro">
-				Vous avez le projet d'un flyer, d'une revue ou d'une vidéo ? Échangeons sur
-				votre besoin.
-			</p>
+			<span class="eyebrow">{contact.surtitre}</span>
+			<h2 class="section-title">{contact.titre}</h2>
+			<p class="intro">{contact.intro}</p>
 		</div>
 
 		<form id="contact-form" class="contact-form" novalidate>
@@ -30,7 +30,7 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 				Message
 				<textarea name="message" rows="4" required></textarea>
 			</label>
-			<button type="submit" class="pill submit-btn">Envoyer</button>
+			<button type="submit" class="pill submit-btn">{contact.bouton}</button>
 			<p class="form-status" role="status" aria-live="polite"></p>
 		</form>
 	</div>

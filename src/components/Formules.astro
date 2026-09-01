@@ -1,49 +1,19 @@
 ---
-const formules = [
-	{
-		nom: 'Express',
-		icone: '⚡',
-		objectif: 'Un besoin ponctuel à traiter rapidement, sans engagement.',
-		avantages: [
-			'Un support selon votre besoin (flyer, visuel, retouche…)',
-			'Délai de réalisation court',
-		],
-		mise_en_avant: false,
-	},
-	{
-		nom: 'Décollage',
-		icone: '🚀',
-		objectif: 'Un accompagnement complet pour lancer ou relancer votre communication.',
-		avantages: [
-			'Projet de communication de A à Z',
-			'Déclinaison sur plusieurs supports',
-			'Point de suivi personnalisé',
-		],
-		mise_en_avant: true,
-	},
-	{
-		nom: 'Mission Croisière',
-		icone: '🚢',
-		objectif: 'Un suivi dans la durée pour une communication qui vit au fil du temps.',
-		avantages: [
-			'Accompagnement et production régulière (hebdomadaire, mensuel...) ',
-			'Conseil stratégique continu',
-		],
-		mise_en_avant: false,
-	},
-];
+import { getEntry } from 'astro:content';
+
+const formules = (await getEntry('formules', 'formules'))!.data;
 ---
 
 <section id="formules" data-reveal>
 	<div class="wrap">
 		<div class="section-heading">
-			<span class="eyebrow">Comment travailler ensemble</span>
-			<h2 class="section-title">Formules</h2>
+			<span class="eyebrow">{formules.surtitre}</span>
+			<h2 class="section-title">{formules.titre}</h2>
 		</div>
 
 		<div class="grid">
 			{
-				formules.map((formule) => (
+				formules.liste.map((formule) => (
 					<article class={`formule-card ${formule.mise_en_avant ? 'is-featured' : ''}`}>
 						{formule.mise_en_avant && <span class="pill badge">Populaire</span>}
 						<span class="formule-icon" aria-hidden="true">
