@@ -3,14 +3,12 @@ import { config, fields, collection } from '@keystatic/core';
 const depotGithub = import.meta.env.PUBLIC_KEYSTATIC_GITHUB_REPO as string | undefined;
 
 export default config({
-	// Sur ton Mac (npm run dev) : mode local, Keystatic écrit dans les fichiers du projet.
-	// En ligne : mode GitHub, chaque enregistrement devient un commit sur le dépôt.
-	// Le basculement se fait par la variable d'environnement PUBLIC_KEYSTATIC_GITHUB_REPO
-	// (à définir dans Netlify uniquement, au format "utilisateur/mon-portfolio").
-	storage:
-		import.meta.env.DEV || !depotGithub
-			? { kind: 'local' }
-			: { kind: 'github', repo: depotGithub },
+	// Le mode dépend d'une seule variable, PUBLIC_KEYSTATIC_GITHUB_REPO :
+	//  - absente (cas du .env local) : mode local, Keystatic écrit dans les fichiers du projet
+	//  - présente (définie dans Netlify) : mode GitHub, chaque enregistrement devient un commit
+	// L'ajouter temporairement au .env local permet de lancer l'assistant /keystatic/setup
+	// depuis la machine, ce qui est le seul endroit où il peut écrire les secrets.
+	storage: depotGithub ? { kind: 'github', repo: depotGithub } : { kind: 'local' },
 
 	ui: {
 		brand: { name: 'Portfolio Mathilde' },
