@@ -27,6 +27,8 @@ pnpm-debug.log*
 .netlify/
 # archive de dépôt Hostinger
 site-hostinger.zip
+# archive de dépôt manuel sur Netlify
+portfolio-a-deposer.zip
 
 # sauvegardes locales des images avant détourage (les originaux sont dans l’historique git)
 originaux-images/

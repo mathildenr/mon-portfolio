@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "SKIP_KEYSTATIC=true astro build",
-    "build:netlify": "NETLIFY_BUILD=true astro build",
+    "build": "SKIP_KEYSTATIC=true astro build && node scripts/nettoyer-images.mjs",
+    "build:netlify": "NETLIFY_BUILD=true astro build && node scripts/nettoyer-images.mjs",
     "preview": "SKIP_KEYSTATIC=true astro preview",
     "astro": "astro"
   },
