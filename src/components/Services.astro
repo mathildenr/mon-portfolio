@@ -1,7 +1,8 @@
 ---
 import { getEntry } from 'astro:content';
+import { exigerFiche } from '../lib/contenu';
 
-const services = (await getEntry('services', 'services'))!.data;
+const services = exigerFiche(await getEntry('services', 'services'), 'services');
 ---
 
 <section id="services" data-reveal>

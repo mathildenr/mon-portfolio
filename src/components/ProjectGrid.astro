@@ -1,17 +1,25 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
+import { exigerFiche } from '../lib/contenu';
 import FilterButtons from './FilterButtons.astro';
 import ProjectCard from './ProjectCard.astro';
 import ProjectModal from './ProjectModal.astro';
+import { optimiser, LARGEUR_VIGNETTE, LARGEUR_APERCU } from '../lib/images';
 
 const CATEGORY_ORDER = ['Graphisme', 'Site web', 'Photos et vidéos', 'Podcast', 'Réseaux sociaux'];
 const MAX_VISIBLE = 6;
 
-const realisations = (await getEntry('realisations', 'realisations'))!.data;
-const allProjets = await getCollection('projets');
-const projets = allProjets
-	.map((entry) => entry.data)
-	.sort((a, b) => a.ordre - b.ordre);
+const realisations = exigerFiche(await getEntry('realisations', 'realisations'), 'realisations');
+// L'ordre est celui de la liste, réglé au glisser-déposer dans Keystatic.
+// Deux tailles par projet : la vignette de la grille, plus large pour l'aperçu.
+const projets = await Promise.all(
+	realisations.liste.map(async (projet) => ({
+			...projet,
+			vignette: await optimiser(projet.image, LARGEUR_VIGNETTE),
+			apercu: await optimiser(projet.image, LARGEUR_APERCU),
+			galerie: await Promise.all(projet.galerie.map((src) => optimiser(src, LARGEUR_APERCU))),
+	})),
+);
 
 const categories = CATEGORY_ORDER.filter((cat) => projets.some((p) => p.categorie === cat));
 ---
@@ -31,10 +39,12 @@ const categories = CATEGORY_ORDER.filter((cat) => projets.some((p) => p.categori
 					<ProjectCard
 						titre={projet.titre}
 						categorie={projet.categorie}
-						image={projet.image}
+						image={projet.vignette}
+						apercu={projet.apercu}
 						lien={projet.lien}
 						description={projet.description}
 						couleur={projet.couleur}
+						galerie={projet.galerie}
 					/>
 				))
 			}

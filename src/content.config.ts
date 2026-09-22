@@ -1,21 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Les projets sont des fiches YAML, éditées via Keystatic (/keystatic).
-const projets = defineCollection({
-	loader: glob({ pattern: '**/*.yaml', base: './src/content/projets' }),
-	schema: z.object({
-		titre: z.string(),
-		categorie: z.enum(['Graphisme', 'Site web', 'Photos et vidéos', 'Podcast', 'Réseaux sociaux']),
-		// Keystatic écrit une chaîne vide quand le champ est laissé vide.
-		lien: z.union([z.string().url(), z.literal('')]).optional(),
-		image: z.string(),
-		description: z.string().optional(),
-		couleur: z.string().default('#f9d999'),
-		ordre: z.number().default(0),
-	}),
-});
-
 // Les textes fixes du site : une fiche unique par section, éditée via Keystatic.
 const dossierSite = './src/content/site';
 
@@ -37,6 +22,21 @@ const realisations = defineCollection({
 	schema: z.object({
 		surtitre: z.string(),
 		titre: z.string(),
+		// Les projets, dans l'ordre défini au glisser-déposer dans Keystatic.
+		liste: z
+			.array(
+				z.object({
+					titre: z.string(),
+					categorie: z.enum(['Graphisme', 'Site web', 'Photos et vidéos', 'Podcast', 'Réseaux sociaux']),
+					image: z.string(),
+					galerie: z.array(z.string()).default([]),
+					description: z.string().optional(),
+					// Keystatic écrit une chaîne vide quand le champ est laissé vide.
+					lien: z.union([z.string().url(), z.literal('')]).optional(),
+					couleur: z.string().default('#f9d999'),
+				}),
+			)
+			.default([]),
 	}),
 });
 
@@ -83,4 +83,4 @@ const contact = defineCollection({
 	}),
 });
 
-export const collections = { projets, hero, realisations, services, formules, contact };
+export const collections = { hero, realisations, services, formules, contact };

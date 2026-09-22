@@ -1,9 +1,12 @@
 ---
 import { getEntry } from 'astro:content';
+import { exigerFiche } from '../lib/contenu';
 import { decouperAccroche } from '../lib/texte';
+import { optimiser, LARGEUR_PORTRAIT } from '../lib/images';
 
-const hero = (await getEntry('hero', 'hero'))!.data;
+const hero = exigerFiche(await getEntry('hero', 'hero'), 'hero');
 const accroche = decouperAccroche(hero.accroche);
+const portrait = await optimiser(hero.portrait, LARGEUR_PORTRAIT);
 ---
 
 <header class="hero" id="top" data-reveal>
@@ -12,7 +15,7 @@ const accroche = decouperAccroche(hero.accroche);
 	<div class="wrap hero-body">
 		<div class="hero-photo">
 			<div class="photo-blob" aria-hidden="true"></div>
-			<img class="photo" src={hero.portrait} alt="Portrait de Mathilde" width="223" height="300" fetchpriority="high" />
+			<img class="photo" src={portrait} alt="Portrait de Mathilde" width="223" height="300" fetchpriority="high" />
 		</div>
 
 		<div class="hero-text">

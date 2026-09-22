@@ -1,7 +1,8 @@
 ---
 import { getEntry } from 'astro:content';
+import { exigerFiche } from '../lib/contenu';
 
-const formules = (await getEntry('formules', 'formules'))!.data;
+const formules = exigerFiche(await getEntry('formules', 'formules'), 'formules');
 ---
 
 <section id="formules" data-reveal>

@@ -1,8 +1,9 @@
 ---
 import { getEntry } from 'astro:content';
+import { exigerFiche } from '../lib/contenu';
 
 const WEB3FORMS_ACCESS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
-const contact = (await getEntry('contact', 'contact'))!.data;
+const contact = exigerFiche(await getEntry('contact', 'contact'), 'contact');
 ---
 
 <section id="contact" data-reveal>

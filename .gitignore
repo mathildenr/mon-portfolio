@@ -27,3 +27,6 @@ pnpm-debug.log*
 .netlify/
 # archive de dépôt Hostinger
 site-hostinger.zip
+
+# sauvegardes locales des images avant détourage (les originaux sont dans l’historique git)
+originaux-images/

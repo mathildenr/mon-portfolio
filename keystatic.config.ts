@@ -1,4 +1,4 @@
-import { config, fields, collection, singleton } from '@keystatic/core';
+import { config, fields, singleton } from '@keystatic/core';
 
 const depotGithub = import.meta.env.PUBLIC_KEYSTATIC_GITHUB_REPO as string | undefined;
 
@@ -13,71 +13,12 @@ export default config({
 	ui: {
 		brand: { name: 'Portfolio Mathilde' },
 		navigation: {
-			Réalisations: ['projets'],
-			'Sections du site': ['hero', 'realisations', 'services', 'formules', 'contact'],
+			Réalisations: ['realisations'],
+			'Sections du site': ['hero', 'services', 'formules', 'contact'],
 		},
 	},
 
-	collections: {
-		projets: collection({
-			label: 'Projets',
-			path: 'src/content/projets/*',
-			slugField: 'titre',
-			format: { data: 'yaml' },
-			columns: ['titre', 'categorie', 'ordre'],
-			schema: {
-				titre: fields.slug({
-					name: {
-						label: 'Titre',
-						description: 'Nom du projet, affiché sur la vignette et dans l’aperçu.',
-					},
-					slug: {
-						label: 'Nom du fichier',
-						description: 'Généré depuis le titre. À ne modifier que si nécessaire.',
-					},
-				}),
-				categorie: fields.select({
-					label: 'Catégorie',
-					description: 'Détermine le filtre sous lequel le projet apparaît.',
-					options: [
-						{ label: 'Graphisme', value: 'Graphisme' },
-						{ label: 'Site web', value: 'Site web' },
-						{ label: 'Photos et vidéos', value: 'Photos et vidéos' },
-						{ label: 'Podcast', value: 'Podcast' },
-						{ label: 'Réseaux sociaux', value: 'Réseaux sociaux' },
-					],
-					defaultValue: 'Graphisme',
-				}),
-				image: fields.image({
-					label: 'Visuel',
-					description: 'Format paysage recommandé, en .webp si possible.',
-					directory: 'public/images/projets',
-					publicPath: '/images/projets/',
-					validation: { isRequired: true },
-				}),
-				description: fields.text({
-					label: 'Description',
-					description: 'Une à deux phrases, affichées dans l’aperçu au clic.',
-					multiline: true,
-				}),
-				lien: fields.url({
-					label: 'Lien vers le projet',
-					description: 'Optionnel. Laisser vide s’il n’y a rien à montrer en ligne.',
-				}),
-				couleur: fields.text({
-					label: 'Couleur d’accent',
-					description: 'Code hexadécimal, par ex. #f9d999.',
-					defaultValue: '#f9d999',
-				}),
-				ordre: fields.integer({
-					label: 'Ordre d’affichage',
-					description: 'Les plus petits nombres apparaissent en premier.',
-					defaultValue: 0,
-					validation: { isRequired: true },
-				}),
-			},
-		}),
-	},
+	collections: {},
 
 	singletons: {
 		hero: singleton({
@@ -103,8 +44,8 @@ export default config({
 				}),
 				portrait: fields.image({
 					label: 'Portrait',
-					directory: 'public/images',
-					publicPath: '/images/',
+					directory: 'src/assets/images',
+					publicPath: '@assets/images/',
 					validation: { isRequired: true },
 				}),
 				bouton_principal: fields.text({
@@ -119,12 +60,68 @@ export default config({
 		}),
 
 		realisations: singleton({
-			label: 'Réalisations (titres)',
+			label: 'Réalisations',
 			path: 'src/content/site/realisations',
 			format: { data: 'yaml' },
 			schema: {
 				surtitre: fields.text({ label: 'Surtitre', description: 'En petites capitales.' }),
 				titre: fields.text({ label: 'Titre de la section' }),
+				liste: fields.array(
+					fields.object({
+						titre: fields.text({ label: 'Titre' }),
+						categorie: fields.select({
+							label: 'Catégorie',
+							description: 'Détermine le filtre sous lequel le projet apparaît.',
+							options: [
+								{ label: 'Graphisme', value: 'Graphisme' },
+								{ label: 'Site web', value: 'Site web' },
+								{ label: 'Photos et vidéos', value: 'Photos et vidéos' },
+								{ label: 'Podcast', value: 'Podcast' },
+								{ label: 'Réseaux sociaux', value: 'Réseaux sociaux' },
+							],
+							defaultValue: 'Graphisme',
+						}),
+						image: fields.image({
+							label: 'Visuel',
+							description:
+								'Format paysage recommandé. Déposer le fichier d’origine : il est redimensionné et converti en WebP à la compilation.',
+							directory: 'src/assets/images/projets',
+							publicPath: '@assets/images/projets/',
+							validation: { isRequired: true },
+						}),
+						galerie: fields.array(
+							fields.image({
+								label: 'Image',
+								directory: 'src/assets/images/projets',
+								publicPath: '@assets/images/projets/',
+							}),
+							{
+								label: 'Galerie',
+								description:
+									'Images supplémentaires, affichées dans l’aperçu à la suite du visuel principal.',
+							},
+						),
+						description: fields.text({
+							label: 'Description',
+							description: 'Une à deux phrases, affichées dans l’aperçu au clic.',
+							multiline: true,
+						}),
+						lien: fields.url({
+							label: 'Lien vers le projet',
+							description: 'Optionnel. Laisser vide s’il n’y a rien à montrer en ligne.',
+						}),
+						couleur: fields.text({
+							label: 'Couleur d’accent',
+							description: 'Code hexadécimal, par ex. #f9d999.',
+							defaultValue: '#f9d999',
+						}),
+					}),
+					{
+						label: 'Projets',
+						description: 'Glisser les projets pour changer leur ordre dans la grille.',
+						itemLabel: (props) => props.fields.titre.value || 'Sans titre',
+					},
+				),
 			},
 		}),
 
