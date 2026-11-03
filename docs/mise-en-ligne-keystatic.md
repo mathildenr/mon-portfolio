@@ -1,8 +1,9 @@
 # Mettre le back-office Keystatic en ligne
 
-État actuel : Keystatic fonctionne **en local** (`npm run dev` → http://localhost:4321/keystatic).
-Ce document décrit les étapes pour l'utiliser **depuis n'importe où**, avec enregistrement
-direct sur GitHub et reconstruction automatique du site.
+État actuel : Keystatic fonctionne **en local** (`npm run dev` → http://localhost:4321/keystatic)
+**et en ligne** (https://mathilde-regaud.fr/keystatic), avec enregistrement direct sur GitHub
+et reconstruction automatique du site par Netlify. Les étapes ci-dessous sont celles qui ont
+été suivies ; les pièges rencontrés sont signalés au fil du texte et regroupés en fin de document.
 
 Compter une heure la première fois. Chaque étape est indépendante : on peut s'arrêter
 entre deux, le site en ligne actuel n'est pas touché tant que le DNS n'a pas bougé (étape 6).
@@ -26,7 +27,11 @@ Rien à créer à la main sur github.com : VS Code s'en charge.
 
 Vérification après coup, sur github.com/mathildenr/mon-portfolio : le fichier
 `.env` **ne doit pas** y figurer (il est ignoré volontairement, il contient la
-clé Web3Forms).
+clé Web3Forms). Vérifier aussi dans **Settings → Danger Zone** que le dépôt est bien
+**privé** : il avait été créé public.
+
+Les archives locales (`site-hostinger.zip`, `portfolio-a-deposer.zip`) sont dans le
+`.gitignore` et ne doivent pas être ajoutées au dépôt.
 
 ### Variante en ligne de commande
 
@@ -51,23 +56,49 @@ git push -u origin main
      (sans elle, le formulaire de contact ne fonctionnera pas en ligne).
 5. Déployer. Le site est visible sur une adresse en `xxx.netlify.app`.
 
+Le projet Netlify actuel s'appelle `verdant-dolphin-bea724` (affiché « mathilde-regaud.fr »
+dans la liste). S'il a été créé en déposant un dossier à la main (« Netlify Drop »), il n'est
+pas relié à GitHub : **Project configuration → Developer settings → Link repository →
+GitHub**, puis choisir `mathildenr/mon-portfolio`, branche `main`. Les réglages de build
+viennent de `netlify.toml` (commande `npm run build:netlify`, dossier `dist`).
+
 ## 5. Activer le mode GitHub de Keystatic
 
-1. Dans Netlify → **Environment variables**, ajouter :
+1. Dans Netlify → **Environment variables**, ajouter, avant le premier déploiement relié à
+   GitHub :
+   - `PUBLIC_WEB3FORMS_KEY` (valeur du `.env` local, sinon le formulaire de contact casse)
    - `PUBLIC_KEYSTATIC_GITHUB_REPO` = `mathildenr/mon-portfolio`
-2. Redéployer (**Deploys → Trigger deploy**).
-3. Ouvrir `https://xxx.netlify.app/keystatic` : un assistant propose de créer
-   une **GitHub App**. Se laisser guider ; lui donner accès au dépôt `mon-portfolio`.
-4. L'assistant affiche quatre valeurs. Les recopier dans les variables
-   d'environnement Netlify :
+   - `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` = `keystatic-portfolio-mathilde`
+2. Redéployer (**Deploys → Trigger deploy → Deploy project**).
+3. **La GitHub App.** Si elle n'existe pas encore, ouvrir `https://xxx.netlify.app/keystatic` :
+   un assistant propose de la créer. Si elle existe déjà (c'est le cas :
+   `keystatic-portfolio-mathilde`, sur https://github.com/settings/apps/keystatic-portfolio-mathilde),
+   la réutiliser et récupérer ses valeurs :
+   - **Client ID** (`Iv…`) : en haut de la page **General**. À copier-coller, sans le retaper
+     (lettres qui se ressemblent : I, l, 0, O).
+   - **Client secret** : menu **Credentials** → **Generate a new client secret**. Il n'est
+     affiché qu'**une seule fois** : l'ajouter dans Netlify avant de copier autre chose.
+   - **`KEYSTATIC_SECRET`** : une chaîne aléatoire, `openssl rand -hex 32 | pbcopy`
+     (la valeur va dans le presse-papiers, sans s'afficher).
+4. Les ajouter dans les variables d'environnement Netlify, avec « Contains secret values »
+   pour les deux secrets :
    - `KEYSTATIC_GITHUB_CLIENT_ID`
    - `KEYSTATIC_GITHUB_CLIENT_SECRET`
    - `KEYSTATIC_SECRET`
-   - `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
-5. Redéployer une dernière fois.
+5. Sur la page de l'app GitHub, section **Identifying and authorizing users**, vérifier que
+   l'adresse de retour du domaine est enregistrée (puis **Save changes**) :
+   `https://mathilde-regaud.fr/api/keystatic/github/oauth/callback`
+   Les adresses `http://127.0.0.1:4321/...` servent à l'édition en local ; celle en
+   `netlify.app` à l'adresse Netlify.
+6. **Installer l'app sur le dépôt** : menu **Install App** → `mathildenr` → *Only select
+   repositories* → `mon-portfolio`. Dans **Permissions & events**, **Contents** doit être sur
+   *Read and write*. Sans cette installation, l'enregistrement échoue avec « The GitHub App is
+   unable to commit to the repository ».
+7. Redéployer une dernière fois.
 
 À partir de là : `/keystatic` demande une connexion GitHub, et chaque enregistrement
-crée un commit sur le dépôt, qui déclenche un nouveau déploiement (environ une minute).
+crée un commit sur le dépôt, qui déclenche un nouveau déploiement (environ une minute,
+plus un rechargement forcé du navigateur : Cmd+Shift+R).
 
 ## 6. Basculer le nom de domaine (domaine géré chez Hostinger)
 
@@ -115,6 +146,11 @@ ne seront simplement plus servis.
 - **Depuis le Mac** : `npm run dev`, puis http://localhost:4321/keystatic.
   En local, Keystatic écrit directement dans les fichiers — penser à faire
   `git add -A && git commit -m "..." && git push` ensuite.
+- **Toujours `git pull` avant de travailler en local** si une modification a pu être faite
+  en ligne : sinon le `git push` suivant est refusé.
+- L'encart **Current branch** de Keystatic est facultatif : rester sur `main`. Créer une
+  branche échoue avec « Resource not accessible by integration » (l'app n'a pas le droit
+  de créer des branches), ce qui est sans conséquence.
 
 ## Si un jour il faut redéployer à la main (retour sur Hostinger ou autre)
 
@@ -144,3 +180,23 @@ couleur (`**comme ceci**`) et un retour à la ligne en crée un sur le site.
 Restent écrits en dur : le menu, le pied de page, les mentions légales et les
 libellés du formulaire de contact. Ils peuvent basculer de la même façon si le
 besoin s'en fait sentir.
+
+## Dépannage
+
+- **Netlify ne reconstruit plus à chaque push.** Dans Netlify → Deploys, le haut de la page
+  indique d'où vient le dernier déploiement. « Netlify Drop » ou « Repository not found »
+  (comme le 1er septembre, quand le compte GitHub était signalé) veut dire que le dépôt
+  n'est plus relié : refaire **Link repository** (étape 4).
+- **`/keystatic` répond 404.** Le site a été déployé en statique (`npm run build` ou dépôt
+  manuel) au lieu de `npm run build:netlify`. Seul le build lancé par Netlify inclut le
+  back-office.
+- **`/api/keystatic/github/login` répond 500.** Une des variables `KEYSTATIC_*` manque dans
+  Netlify. Il en faut 5 pour Keystatic : `KEYSTATIC_GITHUB_CLIENT_ID`,
+  `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `PUBLIC_KEYSTATIC_GITHUB_REPO` et
+  `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` (plus `PUBLIC_WEB3FORMS_KEY` pour le formulaire).
+- **Erreur sur `http://127.0.0.1:4321/...` à l'installation de l'app.** Sans gravité : GitHub
+  redirige vers la première adresse de retour de la liste, ici l'adresse du serveur local,
+  qui n'est pas lancé. Vérifier simplement dans https://github.com/settings/installations
+  que l'app est bien installée sur `mon-portfolio`.
+- **Client secret perdu.** Il ne se relit jamais : en générer un nouveau (Credentials),
+  le remplacer dans Netlify, puis supprimer l'ancien avec **Delete**.
