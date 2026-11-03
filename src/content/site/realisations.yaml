@@ -1,75 +1,83 @@
 surtitre: Réalisations
-titre: Des solutions à vos problématiques de communication
+titre: Des solutions à vos besoins de communication
 liste:
-- titre: Mise en page d'un guide local
-  categorie: Graphisme
-  image: '@assets/images/projets/liste/0/image.png'
-  galerie:
-  - '@assets/images/projets/liste/0/galerie/0.png'
-  - '@assets/images/projets/liste/0/galerie/1.png'
-  description: Mise en page du petit guide de Berlin et Munich pour l'édition 2026
-  lien: https://lepetitjournal.com/vivre-a-berlin/petit-guide-de-berlin-2026-magazine-francophone-capitale-allemande-449293
-  couleur: '#f9d999'
-- titre: Direction artistique parcours audio
-  categorie: Graphisme
-  image: '@assets/images/projets/liste/1/image.png'
-  galerie: []
-  description: Création de l'affiche d'un parcours audio « Allons à la source »
-  lien: https://prieenchemin.org/
-  couleur: '#d7e8e6'
-- titre: Refonte des supports de communication
-  categorie: Graphisme
-  image: '@assets/images/projets/liste/2/image.png'
-  galerie: []
-  description: Création du nouveau flyer à partir de la nouvelle identité visuelle.
-  lien: https://www.reseau-magis.org/
-  couleur: '#ffe4b3'
-- titre: Refonte du site d'un accueil de jour
-  categorie: Site web
-  image: '@assets/images/projets/liste/3/image.webp'
-  galerie: []
-  description: Refonte du site et intégration d'un module de gestion des inscriptions pour un accueil de jour.
-  lien: https://louiseetrosalie.com/
-  couleur: '#e7e2d6'
-- titre: Déclinaison de l'identité d'un parcours audio en vignette
-  categorie: Graphisme
-  image: '@assets/images/projets/liste/4/image.webp'
-  galerie: []
-  description: Création de l'identité visuelle du parcours d'Avent et déclinaisons sous forme de vignettes pour chaque contenu.
-  lien: https://prieenchemin.org/retraite-en-ligne/avent-esperance-2024/
-  couleur: '#f9d999'
-- titre: Lancement site web
-  categorie: Site web
-  image: '@assets/images/projets/liste/5/image.webp'
-  galerie: []
-  description: Webdesign et intégration du site via WordPress.
-  lien: https://dmi-chants.fr/
-  couleur: '#c7d2e0'
-- titre: Tournage et montage évènementiel
-  categorie: Photos et vidéos
-  image: '@assets/images/projets/liste/6/image.webp'
-  galerie: []
-  description: Captation de la messe d'ordination et montage vidéo pour Instagram.
-  lien: https://www.youtube.com/shorts/9LkOiZ1WA2I
-  couleur: '#f6c76b'
-- titre: Community management d'une association
-  categorie: Réseaux sociaux
-  image: '@assets/images/projets/liste/7/image.webp'
-  galerie: []
-  description: 'Couverture Instagram du jubilé des jeunes : avant, pendant et après..'
-  lien: https://www.instagram.com/reseaumagis/
-  couleur: '#dfe6ee'
-- titre: Community mangement Ouest-Est
-  categorie: Réseaux sociaux
-  image: '@assets/images/projets/liste/8/image.png'
-  galerie: []
-  description: Visuels Instagram pour annoncer la mission humanitaire d'Ouest-Est à Bacău, en Roumanie.
-  lien: ''
-  couleur: '#efe2cd'
-- titre: Vidéo de présentation d'une nouvelle édition de revue
-  categorie: Photos et vidéos
-  image: '@assets/images/projets/liste/9/image.png'
-  galerie: []
-  description: Tournage et montage d'une vidéo de présentation de la nouvelle édition de la revue Christus.
-  lien: https://www.youtube.com/watch?v=P9xW1Oc6rvw
-  couleur: '#f1dede'
+  - titre: Mise en page d'un guide local
+    categorie: Graphisme
+    image: '@assets/images/projets/liste/0/image.png'
+    galerie:
+      - '@assets/images/projets/liste/0/galerie/0.png'
+      - '@assets/images/projets/liste/0/galerie/1.png'
+    description: Mise en page du petit guide de Berlin et Munich pour l'édition 2026
+    lien: >-
+      https://lepetitjournal.com/vivre-a-berlin/petit-guide-de-berlin-2026-magazine-francophone-capitale-allemande-449293
+    couleur: '#f9d999'
+  - titre: Direction artistique parcours audio
+    categorie: Graphisme
+    image: '@assets/images/projets/liste/1/image.png'
+    galerie: []
+    description: Création de l'affiche d'un parcours audio « Allons à la source »
+    lien: https://prieenchemin.org/
+    couleur: '#d7e8e6'
+  - titre: Refonte des supports de communication
+    categorie: Graphisme
+    image: '@assets/images/projets/liste/2/image.png'
+    galerie: []
+    description: Création du nouveau flyer à partir de la nouvelle identité visuelle.
+    lien: https://www.reseau-magis.org/
+    couleur: '#ffe4b3'
+  - titre: Refonte du site d'un accueil de jour
+    categorie: Site web
+    image: '@assets/images/projets/liste/3/image.webp'
+    galerie: []
+    description: >-
+      Refonte du site et intégration d'un module de gestion des inscriptions
+      pour un accueil de jour.
+    lien: https://louiseetrosalie.com/
+    couleur: '#e7e2d6'
+  - titre: Déclinaison de l'identité d'un parcours audio en vignette
+    categorie: Graphisme
+    image: '@assets/images/projets/liste/4/image.webp'
+    galerie: []
+    description: >-
+      Création de l'identité visuelle du parcours d'Avent et déclinaisons sous
+      forme de vignettes pour chaque contenu.
+    lien: https://prieenchemin.org/retraite-en-ligne/avent-esperance-2024/
+    couleur: '#f9d999'
+  - titre: Lancement site web
+    categorie: Site web
+    image: '@assets/images/projets/liste/5/image.webp'
+    galerie: []
+    description: Webdesign et intégration du site via WordPress.
+    lien: https://dmi-chants.fr/
+    couleur: '#c7d2e0'
+  - titre: Tournage et montage évènementiel
+    categorie: Photos et vidéos
+    image: '@assets/images/projets/liste/6/image.webp'
+    galerie: []
+    description: Captation de la messe d'ordination et montage vidéo pour Instagram.
+    lien: https://www.youtube.com/shorts/9LkOiZ1WA2I
+    couleur: '#f6c76b'
+  - titre: Community management d'une association
+    categorie: Réseaux sociaux
+    image: '@assets/images/projets/liste/7/image.webp'
+    galerie: []
+    description: 'Couverture Instagram du jubilé des jeunes : avant, pendant et après..'
+    lien: https://www.instagram.com/reseaumagis/
+    couleur: '#dfe6ee'
+  - titre: Community mangement Ouest-Est
+    categorie: Réseaux sociaux
+    image: '@assets/images/projets/liste/8/image.png'
+    galerie: []
+    description: >-
+      Visuels Instagram pour annoncer la mission humanitaire d'Ouest-Est à
+      Bacău, en Roumanie.
+    couleur: '#efe2cd'
+  - titre: Vidéo de présentation d'une nouvelle édition de revue
+    categorie: Photos et vidéos
+    image: '@assets/images/projets/liste/9/image.png'
+    galerie: []
+    description: >-
+      Tournage et montage d'une vidéo de présentation de la nouvelle édition de
+      la revue Christus.
+    lien: https://www.youtube.com/watch?v=P9xW1Oc6rvw
+    couleur: '#f1dede'
